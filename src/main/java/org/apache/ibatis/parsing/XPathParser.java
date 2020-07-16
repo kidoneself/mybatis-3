@@ -46,10 +46,15 @@ import org.xml.sax.SAXParseException;
  */
 public class XPathParser {
 
+  //Document对象
   private final Document document;
+  //是否校验
   private boolean validation;
+  //xml实体解析器
   private EntityResolver entityResolver;
+  //变量Properties对象
   private Properties variables;
+  //Java xPth对象
   private XPath xpath;
 
   public XPathParser(String xml) {
@@ -112,6 +117,13 @@ public class XPathParser {
     this.document = document;
   }
 
+  /**
+   *
+   * @param xml  文件地址
+   * @param validation  是否校验xml
+   * @param variables 变量Properties对象
+   * @param entityResolver  XMl实体解析器
+   */
   public XPathParser(String xml, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(new StringReader(xml)));
@@ -219,6 +231,13 @@ public class XPathParser {
     return new XNode(this, node, variables);
   }
 
+  /**
+   * 获得指定元素或者节点值
+   * @param expression 表达式
+   * @param root  指定节点
+   * @param returnType  返回类型
+   * @return
+   */
   private Object evaluate(String expression, Object root, QName returnType) {
     try {
       return xpath.evaluate(expression, root, returnType);
@@ -227,6 +246,11 @@ public class XPathParser {
     }
   }
 
+  /**
+   * 创建document对象
+   * @param inputSource xml的InputSource对象
+   * @return
+   */
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
     try {
@@ -264,10 +288,17 @@ public class XPathParser {
     }
   }
 
+  /**
+   * 公有构造方法
+   * @param validation
+   * @param variables
+   * @param entityResolver
+   */
   private void commonConstructor(boolean validation, Properties variables, EntityResolver entityResolver) {
     this.validation = validation;
     this.entityResolver = entityResolver;
     this.variables = variables;
+    //创建XPathFactory对象
     XPathFactory factory = XPathFactory.newInstance();
     this.xpath = factory.newXPath();
   }
