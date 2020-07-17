@@ -29,25 +29,34 @@ import org.junit.jupiter.api.Test;
 
 class ReflectorTest {
 
+  //hasDone
   @Test
   void testGetSetterType() {
+    //创建一个反射工厂
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+    //寻找是否有Section的缓存,没有就创建section的反射对象
     Reflector reflector = reflectorFactory.findForClass(Section.class);
+    //获取反射类的id的set方法的类型
     Assertions.assertEquals(Long.class, reflector.getSetterType("id"));
   }
 
+  //hasDone
   @Test
   void testGetGetterType() {
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+    //反射工厂中找是否存在
     Reflector reflector = reflectorFactory.findForClass(Section.class);
+    //判断两个类型是否相等，相等程序继续执行，不相等报错
     Assertions.assertEquals(Long.class, reflector.getGetterType("id"));
   }
 
+  //hasDone
   @Test
   void shouldNotGetClass() {
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     Reflector reflector = reflectorFactory.findForClass(Section.class);
     Assertions.assertFalse(reflector.hasGetter("class"));
+
   }
 
   interface Entity<T> {
@@ -74,13 +83,18 @@ class ReflectorTest {
   static class Section extends AbstractEntity implements Entity<Long> {
   }
 
+  //hasDone
   @Test
-  void shouldResolveSetterParam() {
+  void shouldResolveSetterParam() {//是否应该解析Setter参数
+    //创建一个反射工厂
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+    //检测是否已经反射过child类
     Reflector reflector = reflectorFactory.findForClass(Child.class);
+    //比较setId的 参数类型
     assertEquals(String.class, reflector.getSetterType("id"));
   }
 
+  //hasDone
   @Test
   void shouldResolveParameterizedSetterParam() {
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
@@ -88,6 +102,7 @@ class ReflectorTest {
     assertEquals(List.class, reflector.getSetterType("list"));
   }
 
+  //hasDone
   @Test
   void shouldResolveArraySetterParam() {
     ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
